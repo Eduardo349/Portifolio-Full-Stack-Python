@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevPy Canvas | Loja Virtual</title>
+    <style>
+        body { background-color: #111827; color: #f3f4f6; font-family: system-ui, -apple-system, sans-serif; margin: 0; padding: 2rem; }
+        .container { max-width: 64rem; margin: 0 auto; }
+        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #374151; padding-bottom: 1rem; margin-bottom: 2rem; }
+        h1 { margin: 0; font-size: 1.75rem; color: #10b981; }
+        .layout { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+        @media (min-width: 768px) { .layout { grid-template-columns: 2fr 1fr; } }
+        .produtos-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+        @media (min-width: 640px) { .produtos-grid { grid-template-columns: 1fr 1fr; } }
+        .card-prod { background-color: #1f2937; border: 1px solid #374151; border-radius: 0.5rem; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; }
+        .prod-info { padding: 1rem; }
+        .prod-info h3 { margin: 0 0 0.5rem 0; font-size: 1.1rem; color: white; }
+        .prod-info p { margin: 0 0 1rem 0; font-size: 0.85rem; color: #9ca3af; line-height: 1.4; }
+        .price { font-size: 1.25rem; font-weight: 700; color: #10b981; }
+        .btn-add { background-color: #10b981; color: white; border: none; width: 100%; padding: 0.6rem; font-weight: 600; cursor: pointer; transition: background 0.2s; border-radius: 0 0 0.375rem 0.375rem; }
+        .btn-add:hover { background-color: #059669; }
+        .carrinho-box { background-color: #1f2937; padding: 1.5rem; border-radius: 0.5rem; border: 1px solid #374151; height: fit-content; }
+        .cart-item { display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 0.75rem; border-bottom: 1px solid #374151; padding-bottom: 0.5rem; }
+        .total-box { display: flex; justify-content: space-between; font-weight: 700; font-size: 1.1rem; margin-top: 1.5rem; border-top: 2px solid #374151; padding-top: 1rem; color: white; }
+        .btn-checkout { background-color: #f59e0b; color: #111827; border: none; width: 100%; padding: 0.75rem; border-radius: 0.375rem; font-weight: 700; cursor: pointer; margin-top: 1rem; }
+        .btn-back { background-color: #374151; color: white; text-decoration: none; padding: 0.5rem 1rem; border-radius: 0.375rem; font-size: 0.875rem; }
+        .box-historico { background-color: #1f2937; padding: 1.5rem; border-radius: 0.5rem; border: 1px solid #374151; margin-top: 2rem; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: 0.9rem; }
+        th, td { padding: 0.75rem; text-align: left; border-bottom: 1px solid #374151; }
+        th { color: #9ca3af; background-color: #111827; }
+        .status-pago { color: #34d399; font-weight: 600; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <div>
+                <h1>Marketplace Tech Shop 🛒</h1>
+                <p style="margin: 0.25rem 0 0 0; color: #9ca3af; font-size: 0.9rem;">Escolha produtos de teste integrados ao banco de dados relacional.</p>
+            </div>
+            <a href="/" class="btn-back">Voltar ao Portfólio</a>
+        </div>
+
+        <div class="layout">
+            <!-- Catálogo de Produtos -->
+            <div>
+                <h2 style="font-size: 1.25rem; margin-bottom: 1rem;">Catálogo de Serviços</h2>
+                <div id="lista-produtos" class="produtos-grid">
+                    <p style="color: #9ca3af;">Carregando catálogo do banco de dados...</p>
+                </div>
+            </div>
+
+            <!-- Carrinho Lateral -->
+            <div class="carrinho-box">
+                <h2 style="font-size: 1.25rem; margin-top: 0; color: white;">Seu Carrinho</h2>
+                <div id="itens-carrinho">
+                    <p style="color: #6b7280; font-size: 0.9rem; text-align: center; padding: 1rem 0;">O carrinho está vazio.</p>
+                </div>
+                <div class="total-box">
+                    <span>Total:</span>
+                    <span id="valor-total">R$ 0,00</span>
+                </div>
+                <button class="btn-checkout" onclick="finalizarCompra()">Finalizar Compra (Simular)</button>
+            </div>
+        </div>
+
+        <!-- --- NOVIDADE AQUI: Seção de Histórico de Compras Realizadas --- -->
+        <div class="box-historico">
+            <h2 style="font-size: 1.25rem; margin-top: 0; color: white;">📋 Seus Pedidos Finalizados (Banco de Dados)</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID do Pedido</th>
+                        <th>Data/Hora da Compra</th>
+                        <th>Valor Total</th>
+                        <th>Status do Pagamento</th>
+                    </tr>
+                </thead>
+                <tbody id="tabela-pedidos">
+                    <tr>
+                        <td colspan="4" style="color: #6b7280; text-align: center;">Buscando histórico no banco de dados...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        let carrinho = [];
+        let total = 0;
+        // Puxa o ID do usuário logado ou adota o padrão 1
+        const usuario_id = localStorage.getItem('usuario_id') || 1;
+
+        async function buscarProdutos() {
+            try {
+                const response = await fetch('/api/loja/produtos');
+                const produtos = await response.json();
+                const container = document.getElementById('lista-produtos');
+                container.innerHTML = '';
+
+                produtos.forEach(p => {
+                    container.innerHTML += `
+                        <div class="card-prod">
+                            <div class="prod-info">
+                                <h3>${p.nome}</h3>
+                                <p>${p.descricao}</p>
+                                <span class="price">R$ ${p.preco.toFixed(2)}</span>
+                            </div>
+                            <button class="btn-add" onclick="adicionarAoCarrinho('${p.nome}', ${p.preco})">Adicionar ao Carrinho</button>
+                        </div>
+                    `;
+                });
+            } catch (error) {
+                console.error("Erro ao buscar produtos:", error);
+            }
+        }
+
+        // --- NOVIDADE: Função para buscar as compras antigas do banco ---
+        async function carregarHistoricoPedidos() {
+            try {
+                const response = await fetch(`/api/loja/pedidos/${usuario_id}`);
+                const pedidos = await response.json();
+                const tbody = document.getElementById('tabela-pedidos');
+                
+                if (pedidos.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="4" style="color: #6b7280; text-align: center;">Nenhuma compra realizada por este perfil ainda.</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = pedidos.map(p => `
+                    <tr>
+                        <td style="color: white; font-weight: 600;">#00${p.id}</td>
+                        <td style="color: #9ca3af;">${p.criado_em}</td>
+                        <td style="color: #10b981; font-weight: 700;">R$ ${p.total.toFixed(2)}</td>
+                        <td><span class="status-pago">● ${p.status}</span></td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error("Erro ao carregar histórico:", error);
+            }
+        }
+
+        function adicionarAoCarrinho(nome, preco) {
+            carrinho.push({ nome, preco });
+            total += preco;
+            atualizarCarrinho();
+        }
+
+        function atualizarCarrinho() {
+            const container = document.getElementById('itens-carrinho');
+            const totalSpan = document.getElementById('valor-total');
+            
+            if(carrinho.length === 0) {
+                container.innerHTML = '<p style="color: #6b7280; font-size: 0.9rem; text-align: center; padding: 1rem 0;">O carrinho está vazio.</p>';
+                totalSpan.innerText = "R$ 0,00";
+                return;
+            }
+
+            container.innerHTML = carrinho.map(item => `
+                <div class="cart-item">
+                    <span>${item.nome}</span>
+                    <span style="color: #10b981; font-weight: 600;">R$ ${item.preco.toFixed(2)}</span>
+                </div>
+            `).join('');
+
+            totalSpan.innerText = `R$ ${total.toFixed(2)}`;
+        }
+
+        async function finalizarCompra() {
+            if(carrinho.length === 0) {
+                alert("Adicione pelo menos um item ao carrinho!");
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/loja/checkout', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ usuario_id: parseInt(usuario_id), total: total })
+                });
+                
+                const dados = await response.json();
+                alert(dados.mensagem + " ID do Pedido: #" + dados.pedido_id);
+                
+                carrinho = [];
+                total = 0;
+                atualizarCarrinho();
+                // Recarrega a tabela de histórico na hora para mostrar a nova compra!
+                await carregarHistoricoPedidos();
+            } catch (error) {
+                alert("Erro ao processar o checkout.");
+            }
+        }
+
+        // Inicia carregando os produtos e o histórico do banco
+        document.addEventListener('DOMContentLoaded', () => {
+            buscarProdutos();
+            carregarHistoricoPedidos();
+        });
+    </script>
+</body>
+</html>

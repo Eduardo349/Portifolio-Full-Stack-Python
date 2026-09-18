@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevPy Canvas | Painel de IA</title>
+    <style>
+        body { background-color: #111827; color: #f3f4f6; font-family: system-ui, -apple-system, sans-serif; margin: 0; padding: 2rem; }
+        .container { max-width: 64rem; margin: 0 auto; }
+        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #374151; padding-bottom: 1rem; margin-bottom: 2rem; }
+        h1 { margin: 0; font-size: 1.75rem; color: #f59e0b; }
+        .user-info { font-size: 0.9rem; color: #9ca3af; }
+        .btn-logout { background-color: #ef4444; color: white; border: none; padding: 0.5rem 1rem; border-radius: 0.375rem; cursor: pointer; font-weight: 600; margin-left: 1rem; }
+        .grid { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+        @media (min-width: 768px) { .grid { grid-template-columns: 1fr 1fr; } }
+        .box { background-color: #1f2937; p-padding: 1.5rem; padding: 1.5rem; border-radius: 0.5rem; border: 1px solid #374151; }
+        h2 { font-size: 1.25rem; margin-top: 0; margin-bottom: 1rem; color: #ffffff; }
+        .form-group { margin-bottom: 1.25rem; }
+        label { display: block; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.5rem; color: #9ca3af; }
+        input, textarea { width: 100%; padding: 0.625rem; background-color: #111827; border: 1px solid #374151; border-radius: 0.375rem; color: white; box-sizing: border-box; font-family: inherit; }
+        textarea { resize: vertical; min-height: 100px; }
+        .btn-submit { background-color: #f59e0b; color: #111827; border: none; width: 100%; padding: 0.75rem; border-radius: 0.375rem; font-weight: 700; cursor: pointer; transition: background-color 0.2s; }
+        .btn-submit:hover { background-color: #d97706; }
+        .resultado-box { background-color: #111827; border: 1px solid #374151; padding: 1rem; border-radius: 0.375rem; font-size: 0.9rem; white-space: pre-line; color: #d1d5db; min-height: 150px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Barra Superior -->
+        <div class="header">
+            <div>
+                <h1>Painel Analítico IA 🧠</h1>
+                <p class="user-info">Bem-vindo, <span id="nome-usuario" style="color: white; font-weight: 600;">Desenvolvedor</span></p>
+            </div>
+            <button class="btn-logout" onclick="fazerLogout()">Sair</button>
+        </div>
+
+        <!-- Área Principal -->
+        <div class="grid">
+            <!-- Formulário de Entrada -->
+            <div class="box">
+                <h2>Gerar Novo Relatório</h2>
+                <form id="form-ia" onsubmit="enviarDadosIA(event)">
+                    <div class="form-group">
+                        <label for="titulo">Título do Relatório</label>
+                        <input type="text" id="titulo" placeholder="Ex: Métricas de Vendas - Janeiro" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dados_entrada">Dados Brutos / Informações do Negócio</label>
+                        <textarea id="dados_entrada" placeholder="Digite ou cole aqui os dados brutos para a IA analisar..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">Gerar com Inteligência Artificial</button>
+                </form>
+            </div>
+
+            <!-- Caixa de Resposta da IA -->
+            <div class="box">
+                <h2>Insight da Inteligência Artificial</h2>
+                <div id="resultado-ia" class="resultado-box">
+                    O relatório gerado pela IA aparecerá aqui em tempo real assim que você clicar no botão ao lado...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script de Integração com o Backend -->
+    <script>
+        // --- NOVIDADE: Bloqueio de segurança direto no Frontend ---
+        const token = localStorage.getItem('token_acesso');
+        if (!token) {
+            alert("Acesso negado! Faça login primeiro.");
+            window.location.href = '/login';
+        }
+
+        document.getElementById('nome-usuario').innerText = localStorage.getItem('usuario_nome') || 'Usuário';
+
+        async function enviarDadosIA(event) {
+            event.preventDefault();
+            const btn = document.querySelector('.btn-submit');
+            const resultadoDiv = document.getElementById('resultado-ia');
+            
+            const titulo = document.getElementById('titulo').value;
+            const dados_entrada = document.getElementById('dados_entrada').value;
+
+            btn.innerText = "Processando com IA...";
+            btn.disabled = true;
+            resultadoDiv.innerText = "A Inteligência Artificial está analisando os dados brutos com conexão criptografada...";
+
+            try {
+                const response = await fetch('/api/ia/gerar', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}` // <-- ENVIANDO O CRACHÁ JWT PRO PYTHON
+                    },
+                    body: JSON.stringify({ titulo, dados_entrada })
+                });
+
+                const dados = await response.json();
+
+                if (!response.ok) throw new Error(dados.detail || "Erro na geração");
+                
+                resultadoDiv.innerHTML = `
+                    <div style="margin-bottom: 1.5rem;">${dados.relatorio.insight_ia}</div>
+                    <a href="/api/ia/pdf/${dados.relatorio.id}" style="display: inline-block; background-color: #10b981; color: white; padding: 0.5rem 1rem; border-radius: 0.375rem; text-decoration: none; font-weight: 600; font-size: 0.875rem;" download>
+                        📥 Baixar Relatório Oficial em PDF
+                    </a>
+                `;
+                
+                btn.innerText = "Gerar com Inteligência Artificial";
+                btn.disabled = false;
+
+            } catch (error) {
+                console.error(error);
+                resultadoDiv.innerText = error.message || "Erro ao processar dados no servidor Python.";
+                btn.innerText = "Gerar com Inteligência Artificial";
+                btn.disabled = false;
+            }
+        }
+
+        function fazerLogout() {
+            localStorage.clear();
+            window.location.href = '/';
+        }
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevPy Canvas | Contato & CV</title>
+    <style>
+        body { background-color: #111827; color: #f3f4f6; font-family: system-ui, -apple-system, sans-serif; margin: 0; padding: 2rem; }
+        .container { max-width: 40rem; margin: 0 auto; }
+        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #374151; padding-bottom: 1rem; margin-bottom: 2rem; }
+        h1 { margin: 0; font-size: 1.75rem; color: #f59e0b; }
+        .box { background-color: #1f2937; padding: 2rem; border-radius: 0.75rem; border: 1px solid #374151; margin-bottom: 1.5rem; }
+        .form-group { margin-bottom: 1.25rem; }
+        label { display: block; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.5rem; color: #9ca3af; }
+        input, textarea { width: 100%; padding: 0.75rem; background-color: #111827; border: 1px solid #374151; border-radius: 0.375rem; color: white; box-sizing: border-box; font-family: inherit; font-size: 1rem; }
+        textarea { resize: vertical; min-height: 120px; }
+        .btn-submit { background-color: #f59e0b; color: #111827; border: none; width: 100%; padding: 0.75rem; border-radius: 0.375rem; font-weight: 700; font-size: 1rem; cursor: pointer; transition: background 0.2s; }
+        .btn-submit:hover { background-color: #d97706; }
+        .btn-download { display: block; text-align: center; background-color: #10b981; color: white; padding: 0.75rem; border-radius: 0.375rem; text-decoration: none; font-weight: 700; margin-bottom: 1.5rem; transition: background 0.2s; }
+        .btn-download:hover { background-color: #059669; }
+        .btn-back { background-color: #374151; color: white; text-decoration: none; padding: 0.5rem 1rem; border-radius: 0.375rem; font-size: 0.875rem; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1>Contato & Currículo 💼</h1>
+            <a href="/" class="btn-back">Voltar</a>
+        </div>
+
+        <!-- Área de Download de CV -->
+        <div class="box" style="text-align: center;">
+            <h2 style="margin-top: 0; font-size: 1.25rem; color: white;">Baixar Currículo Profissional</h2>
+            <p style="color: #9ca3af; font-size: 0.9rem; margin-bottom: 1.5rem;">Clique no botão abaixo para fazer o download do meu CV completo formatado para recrutadores.</p>
+            <!-- Rota feita no Python para disparar o download -->
+            <a href="/api/contato/download-cv" class="btn-download" download>📥 Baixar meu CV (PDF Oficial)</a>
+        </div>
+
+        <!-- Formulário de Mensagem -->
+        <div class="box">
+            <h2 style="margin-top: 0; font-size: 1.25rem; color: white;">Envie uma Mensagem</h2>
+            <form id="form-contato" onsubmit="enviarMensagem(event)">
+                <div class="form-group">
+                    <label for="nome">Seu Nome / Empresa</label>
+                    <input type="text" id="nome" required placeholder="Ex: Recrutador Tech">
+                </div>
+                <div class="form-group">
+                    <label for="email">Seu E-mail de Contato</label>
+                    <input type="email" id="email" required placeholder="recrutador@empresa.com">
+                </div>
+                <div class="form-group">
+                    <label for="mensagem">Mensagem</label>
+                    <textarea id="mensagem" required placeholder="Olá! Gostei do seu portfólio e gostaria de marcar uma entrevista..."></textarea>
+                </div>
+                <button type="submit" class="btn-submit">Enviar Mensagem Full Stack</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        async function enviarMensagem(event) {
+            event.preventDefault();
+            const btn = document.querySelector('.btn-submit');
+            const nome = document.getElementById('nome').value;
+            const email = document.getElementById('email').value;
+            const mensagem = document.getElementById('mensagem').value;
+
+            btn.innerText = "Enviando...";
+            btn.disabled = true;
+
+            try {
+                const response = await fetch('/api/contato/enviar', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ nome, email, mensagem })
+                });
+
+                if (!response.ok) throw new Error();
+
+                alert("Mensagem enviada com sucesso! Obrigado pelo contato.");
+                document.getElementById('form-contato').reset();
+            } catch (error) {
+                alert("Erro ao enviar mensagem para o servidor Python.");
+            } finally {
+                btn.innerText = "Enviar Mensagem Full Stack";
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>

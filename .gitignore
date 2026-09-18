@@ -1,0 +1,17 @@
+# Ambientes Virtuais
+venv/
+.venv/
+env/
+
+# Banco de Dados Local (Criado dinamicamente)
+db.sqlite3
+
+# Caches do Python e do VS Code
+__pycache__/
+*.pyc
+.vscode/
+
+# Arquivos temporários de sistema
+.DS_Store
+Thumbs.db
+
