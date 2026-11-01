@@ -1,0 +1,34 @@
+
+services:
+  # Servidor Backend (Sua API FastAPI Python)
+  web:
+    build: .
+    container_name: devpy_canvas_app
+    restart: always
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    environment:
+      # Variável de ambiente preparada para quando você migrar do SQLite para o PostgreSQL
+      - DATABASE_URL=postgresql://jonas_dev:devpy_secure_pass@db:5432/devpy_canvas_db
+    depends_on:
+      - db
+
+  # Banco de Dados Relacional Corporativo (PostgreSQL)
+  db:
+    image: postgres:15-alpine
+    container_name: devpy_canvas_db
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=jonas_dev
+      - POSTGRES_PASSWORD=devpy_secure_pass
+      - POSTGRES_DB=devpy_canvas_db
+    volumes:
+      # Volume persistente para os dados não sumirem quando o container for parado
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
