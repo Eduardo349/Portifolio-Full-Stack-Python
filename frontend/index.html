@@ -5,23 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DevPy Canvas | Jonas Eduardo - Full Stack Python</title>
     <style>
-        /* CSS Puro - Nunca é bloqueado pelo Servidor */
         body { 
             background-color: #0b0f19; 
             color: #f1f5f9; 
             font-family: system-ui, -apple-system, sans-serif; 
             margin: 0; 
-            min-height: 100/v h;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             position: relative;
             overflow-x: hidden;
         }
-        /* Pontos de Luz Sênior ao Fundo */
         body::before {
             content: ""; position: absolute; top: -10%; left: -10%; width: 600px; height: 600px; 
             background: rgba(245, 158, 11, 0.08); border-radius: 50%; filter: blur(120px); pointer-events: none; z-index: 1;
-            }
+        }
         nav { 
             background: rgba(10, 15, 30, 0.7); 
             backdrop-filter: blur(12px); 
@@ -30,25 +28,24 @@
             position: sticky; top: 0; z-index: 50; 
         }
         .container-nav { max-width: 72rem; margin: 0 auto; padding: 1.25rem 2rem; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 1.25rem; font-weight: 700; color: #f59e0b; text-decoration: none; tracking-wider: 0.05em; }
+        .logo { font-size: 1.25rem; font-weight: 700; color: #f59e0b; text-decoration: none; letter-spacing: 0.05em; }
         .logo span { color: #ffffff; font-weight: 300; }
-        .nav-links a { color: #cbd5e1; text-decoration: none; margin-left: 1.5rem; font-size: 0.875rem; font-medium: 500; transition: color 0.2s; }
+        .nav-links a { color: #cbd5e1; text-decoration: none; margin-left: 1.5rem; font-size: 0.875rem; font-weight: 500; transition: color 0.2s; }
         .nav-links a:hover { color: #f59e0b; }
-        .hero { max-width: 56rem; margin: 0 auto; padding: 6rem 2rem 4rem 2rem; text-align: center; relative: z-10; }
-        .badge { px: 3px; padding: 0.25rem 0.75rem; font-size: 0.75rem; color: #fbbf24; background: rgba(245, 158, 11, 0.1); border-radius: 9999px; border: 1px solid rgba(245, 158, 11, 0.2); display: inline-block; margin-bottom: 1.5rem; }
-        .hero h1 { font-size: 3.5rem; font-weight: 800; margin-bottom: 1.5rem; color: #ffffff; tracking-tight: -0.025em; }
-        .hero h1 span { background: linear-gradient(to right, #fbbf24, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero { max-width: 56rem; margin: 0 auto; padding: 6rem 2rem 4rem 2rem; text-align: center; position: relative; z-index: 10; }
+        .badge { padding: 0.25rem 0.75rem; font-size: 0.75rem; color: #fbbf24; background: rgba(245, 158, 11, 0.1); border-radius: 9999px; border: 1px solid rgba(245, 158, 11, 0.2); display: inline-block; margin-bottom: 1.5rem; }
+        .hero h1 { font-size: 3.5rem; font-weight: 800; margin-bottom: 1.5rem; color: #ffffff; letter-spacing: -0.025em; }
+        .hero h1 span { background: linear-gradient(to right, #fbbf24, #f59e0b); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .hero p { font-size: 1.25rem; color: #94a3b8; margin-bottom: 2.5rem; max-width: 42rem; margin-left: auto; margin-right: auto; line-height: 1.75; }
         .btn-primary { background-color: #f59e0b; color: #0f172a; font-weight: 700; padding: 0.85rem 1.75rem; border-radius: 0.75rem; text-decoration: none; display: inline-block; transition: all 0.2s; box-shadow: 0 10px 15px -3px rgba(245, 158, 11, 0.2); }
         .btn-primary:hover { background-color: #d97706; transform: translateY(-1px); }
         .btn-secondary { background-color: rgba(30, 41, 59, 0.5); color: #ffffff; font-weight: 600; padding: 0.85rem 1.75rem; border-radius: 0.75rem; border: 1px solid rgba(255, 255, 255, 0.1); text-decoration: none; display: inline-block; margin-left: 1rem; transition: all 0.2s; }
         .btn-secondary:hover { background-color: rgba(30, 41, 59, 0.8); transform: translateY(-1px); }
-        .main-content { max-width: 72rem; margin: 0 auto; padding: 4rem 2rem; width: 100%; box-sizing: border-box; relative: z-10; flex-grow: 1; }
+        .main-content { max-width: 72rem; margin: 0 auto; padding: 4rem 2rem; width: 100%; box-sizing: border-box; position: relative; z-index: 10; flex-grow: 1; }
         .section-title { font-size: 1.875rem; font-weight: 700; margin-bottom: 3rem; display: flex; align-items: center; gap: 0.75rem; color: #ffffff; }
         .section-title .bar { height: 0.25rem; width: 3rem; background-color: #f59e0b; border-radius: 0.25rem; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
         
-        /* Estilização Sênior dos Cards de Projetos */
         .glass-card { 
             background: rgba(30, 41, 59, 0.45); 
             backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); 
@@ -63,14 +60,13 @@
         .glass-card p { color: #94a3b8; font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem; }
         .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.75rem; }
         .tag { font-size: 0.7rem; font-weight: 600; background-color: #0f172a; padding: 0.3rem 0.6rem; border-radius: 0.5rem; border: 1px solid rgba(255, 255, 255, 0.05); color: #cbd5e1; font-family: monospace; }
-        .btn-card-action { display: block; text-align: center; width: 100%; padding: 0.75rem; background: #f59e0b; color: #0f172a; border-radius: 0.75rem; font-weight: 700; font-size: 0.85rem; text-decoration: none; text-transform: uppercase; tracking-wider: 0.05em; transition: background 0.2s; box-sizing: border-box; }
+        .btn-card-action { display: block; text-align: center; width: 100%; padding: 0.75rem; background: #f59e0b; color: #0f172a; border-radius: 0.75rem; font-weight: 700; font-size: 0.85rem; text-decoration: none; text-transform: uppercase; letter-spacing: 0.05em; transition: background 0.2s; box-sizing: border-box; }
         .btn-card-action:hover { background: #d97706; }
         
         footer { border-top: 1px solid rgba(255, 255, 255, 0.05); background-color: #050811; padding: 2rem 0; text-align: center; font-size: 0.875rem; color: #64748b; margin-top: auto; width: 100%; }
     </style>
 </head>
 <body>
-
     <nav>
         <div class="container-nav">
             <a href="#" class="logo">DevPy<span>Canvas</span></a>
@@ -81,7 +77,6 @@
             </div>
         </div>
     </nav>
-
     <header id="sobre" class="hero">
         <span class="badge">🚀 Engenharia de Software Full Stack</span>
         <h1>Olá, eu sou <span>Jonas Eduardo</span>.</h1>
@@ -91,20 +86,13 @@
             <a href="https://github.com" target="_blank" class="btn-secondary">GitHub</a>
         </div>
     </header>
-
     <main id="projetos" class="main-content">
         <h2 class="section-title"><span class="bar"></span> Obras de Engenharia</h2>
         <div class="grid"></div>
     </main>
-
     <footer>
         <p>&copy; 2026 DevPy Canvas. Criado por Jonas Eduardo.</p>
     </footer>
-
     <script src="js/app.js"></script>
 </body>
 </html>
-
-
-
-
