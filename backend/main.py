@@ -31,48 +31,36 @@ app.add_middleware(
 # --- INICIALIZAÇÃO E SEED AUTOMÁTICO ---
 @app.on_event("startup")
 def on_startup():
-    # 1. Executa a função que cria o banco SQLite e suas tabelas
+    # 1. Cria o banco SQLite e suas tabelas
     criar_banco_e_tabelas()
     
-    # 2. Abre uma sessão rápida para verificar os produtos da loja
+    # 2. Abre a sessão e faz o seed automatizado à prova de falhas
     db: Session = next(get_session())
     try:
-        # Busca se já existe qualquer produto na tabela
+        # Verifica se a tabela já possui registros
         produto_existente = db.exec(select(Produto)).first()
         
-        # Se não houver nenhum (indica banco zerado pelo Render), faz a inserção
         if not produto_existente:
-            print("[SEED AUTOMÁTICO] Populando produtos na loja virtual...")
+            print("[SEED AUTOMÁTICO] Banco limpo. Injetando dados estáveis...")
             
-            produtos_padrao = [
-                Produto(
-                    titulo="Notebook Python Pro", 
-                    descricao="Notebook configurado com venv, Docker e ambiente pronto para desenvolvimento de software.", 
-                    preco=4500.00
-                ),
-                Produto(
-                    titulo="Curso FastAPI Sênior", 
-                    descricao="Treinamento completo abordando arquiteturas corporativas assíncronas, JWT e SQLModel.", 
-                    preco=299.00
-                ),
-                Produto(
-                    titulo="Mouse Ergonômico Dev", 
-                    descricao="Mouse vertical confortável para evitar fadiga durante longas jornadas de codificação.", 
-                    preco=150.00
-                )
-            ]
+            # Criamos os objetos sem propriedades opcionais para não dar erro de coluna
+            p1 = Produto(titulo="Notebook Python Pro", descricao="Notebook ideal para desenvolvimento.", preco=4500.00)
+            p2 = Produto(titulo="Curso FastAPI Sênior", descricao="Treinamento de APIs assíncronas.", preco=299.00)
+            p3 = Produto(titulo="Mouse Ergonômico Dev", descricao="Mouse confortável para programar.", preco=150.00)
             
-            # Adiciona os produtos e confirma no banco relacional
-            db.add_all(produtos_padrao)
+            # Adiciona um por um para garantir a gravação no banco
+            db.add(p1)
+            db.add(p2)
+            db.add(p3)
             db.commit()
-            print("[SEED AUTOMÁTICO] Produtos injetados com sucesso!")
+            print("[SEED AUTOMÁTICO] Concluído com sucesso no SQLite!")
         else:
-            print("[SEED AUTOMÁTICO] Produtos já existentes. Pulando população.")
+            print("[SEED AUTOMÁTICO] Produtos já existentes.")
     except Exception as e:
-        print(f"[SEED ERRO] Falha ao injetar produtos automaticamente: {e}")
+        print(f"[SEED ERRO] Erro na gravação: {e}")
         db.rollback()
     finally:
-        db.close() # Fecha a conexão com segurança
+        db.close()# Fecha a conexão com segurança
 
 # --- DIRETÓRIOS E COMPONENTES ESTÁTICOS ---
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
