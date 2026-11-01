@@ -1,71 +1,98 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DevPy Canvas | Jonas Eduardo - Full Stack Python</title>
+    <!-- Tailwind CSS CDN para Estilização Moderna -->
+    <script src="https://tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        body { background-color: #111827; color: #f3f4f6; font-family: system-ui, -apple-system, sans-serif; margin: 0; }
-        nav { border-bottom: 1px solid #1f2937; background-color: rgba(17, 24, 39, 0.8); backdrop-filter: blur(8px); position: sticky; top: 0; z-index: 50; }
-        .container-nav { max-width: 72rem; margin: 0 auto; padding: 1rem; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 1.25rem; font-weight: 700; color: #f59e0b; text-decoration: none; letter-spacing: 0.05em; }
-        .logo span { color: #ffffff; font-weight: 300; }
-        .nav-links a { color: #f3f4f6; text-decoration: none; margin-left: 1.5rem; font-size: 0.875rem; font-weight: 500; }
-        .nav-links a:hover { color: #f59e0b; }
-        .hero { max-width: 56rem; margin: 0 auto; padding: 5rem 1rem 4rem 1rem; text-align: center; }
-        .hero h1 { font-size: 3.5rem; font-weight: 800; margin-bottom: 1rem; color: #ffffff; }
-        .hero h1 span { color: #f59e0b; }
-        .hero p { font-size: 1.25rem; color: #9ca3af; margin-bottom: 2rem; max-width: 42rem; margin-left: auto; margin-right: auto; line-height: 1.625; }
-        .btn-primary { background-color: #f59e0b; color: #111827; font-weight: 700; padding: 0.75rem 1.5rem; border-radius: 0.5rem; text-decoration: none; display: inline-block; transition: background-color 0.2s; }
-        .btn-primary:hover { background-color: #d97706; }
-        .btn-secondary { background-color: #1f2937; color: #ffffff; font-weight: 600; padding: 0.75rem 1.5rem; border-radius: 0.5rem; border: 1px solid #374151; text-decoration: none; display: inline-block; margin-left: 1rem; }
-        .main-content { max-width: 72rem; margin: 0 auto; padding: 4rem 1rem; width: 100%; box-sizing: border-box; }
-        .section-title { font-size: 1.875rem; font-weight: 700; margin-bottom: 3rem; display: flex; align-items: center; gap: 0.75rem; }
-        .section-title .bar { height: 0.25rem; width: 3rem; background-color: #f59e0b; border-radius: 0.25rem; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
-        .card { background-color: #1f2937; border-radius: 0.75rem; border: 1px solid #374151; padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between; }
-        .card-status { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; padding: 0.25rem 0.625rem; border-radius: 0.25rem; background-color: rgba(245, 158, 11, 0.1); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.2); }
-        .card-status.disponivel { color: #34d399; background-color: rgba(52, 211, 153, 0.1); border-color: rgba(52, 211, 153, 0.2); }
-        .card h3 { font-size: 1.25rem; font-weight: 700; margin-top: 1rem; margin-bottom: 0.5rem; color: #ffffff; }
-        .card p { color: #9ca3af; font-size: 0.875rem; line-height: 1.5; margin-bottom: 1rem; }
-        .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
-        .tag { font-size: 0.75rem; background-color: #111827; padding: 0.25rem 0.5rem; border-radius: 0.25rem; border: 1px solid #374151; color: #d1d5db; }
-        .btn-card { width: 100%; text-align: center; background-color: #374151; color: #9ca3af; font-weight: 500; padding: 0.5rem; border-radius: 0.5rem; border: none; font-size: 0.875rem; cursor: not-allowed; }
-        .card-placeholder { background-color: rgba(31, 41, 55, 0.4); border-radius: 0.75rem; border: 1px dashed #374151; padding: 2rem; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: #6b7280; min-height: 240px; box-sizing: border-box; }
-        footer { border-top: 1px solid #1f2937; background-color: #030712; padding: 2rem 0; text-align: center; font-size: 0.875rem; color: #6b7280; margin-top: auto; }
+        /* Efeitos customizados de Glassmorphism e Blurs avançados */
+        .glass-nav {
+            background: rgba(10, 15, 30, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-b: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.45);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
     </style>
 </head>
-<body>
+<body class="bg-[#0b0f19] text-slate-100 font-sans antialiased min-h-screen relative overflow-x-hidden flex flex-col">
 
-    <nav>
-        <div class="container-nav">
-            <a href="#" class="logo">DevPy<span>Canvas</span></a>
-            <div class="nav-links">
-                <a href="#sobre">Sobre</a>
-                <a href="#projetos">Projetos</a>
-                <a href="contato" style="color: #f59e0b; font-weight: bold;">Contato & CV 💼</a>
+    <!-- Pontos de Luz Gradiente ao Fundo (Efeito UI Premium) -->
+    <div class="absolute top-[-10%] left-[-10%] w-[600px] h-[600px] bg-amber-500/10 rounded-full blur-[150px] pointer-events-none"></div>
+    <div class="absolute top-[30%] right-[-10%] w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[130px] pointer-events-none"></div>
+
+    <!-- Navegação -->
+    <nav class="sticky top-0 z-50 w-full glass-nav transition-all duration-300">
+        <div class="max-w-6xl mx-auto px-6 h-20 flex justify-between items-center">
+            <a href="#" class="text-xl font-bold tracking-wider text-amber-500 hover:opacity-90 transition-opacity">
+                DevPy<span class="text-white font-light">Canvas</span>
+            </a>
+            <div class="flex items-center space-x-8 text-sm font-medium">
+                <a href="#sobre" class="text-slate-300 hover:text-amber-500 transition-colors">Sobre</a>
+                <a href="#projetos" class="text-slate-300 hover:text-amber-500 transition-colors">Projetos</a>
+                <a href="contato" class="text-amber-500 font-semibold px-4 py-2 rounded-lg bg-amber-500/10 border border-amber-500/20 hover:bg-amber-500/20 transition-all flex items-center gap-2 shadow-lg shadow-amber-500/5">
+                    Contato & CV 💼
+                </a>
             </div>
         </div>
     </nav>
 
-    <header id="sobre" class="hero">
-        <h1>Olá, eu sou <span>Jonas Eduardo</span>.</h1>
-        <p>Desenvolvedor Full Stack Python Júnior focado em criar aplicações escaláveis, APIs robustas e soluções inteligentes com IA.</p>
-        <div>
-            <a href="#projetos" class="btn-primary">Ver Projetos</a>
-            <a href="https://github.com/Eduardo349" target="_blank" class="btn-secondary">GitHub</a>
+    <!-- Seção Hero / Sobre -->
+    <header id="sobre" class="max-w-4xl mx-auto px-6 pt-32 pb-24 text-center relative z-10 flex-grow-0">
+        <span class="px-3 py-1 text-xs font-mono text-amber-400 bg-amber-500/10 rounded-full border border-amber-500/20 inline-block mb-6 animate-pulse">
+            🚀 Engenharia de Software Full Stack
+        </span>
+        <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 leading-tight text-white">
+            Olá, eu sou <span class="bg-gradient-to-r from-amber-400 via-amber-500 to-orange-500 bg-clip-text text-transparent">Jonas Eduardo</span>.
+        </h1>
+        <p class="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+            Desenvolvedor Full Stack Python Júnior focado em criar aplicações escaláveis, APIs robustas e soluções inteligentes com IA.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+            <a href="#projetos" class="px-6 py-3.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-sm rounded-xl transition-all transform hover:-translate-y-0.5 shadow-lg shadow-amber-500/20">
+                Ver Projetos
+            </a>
+            <a href="https://github.com/Eduardo349" target="_blank" class="px-6 py-3.5 bg-slate-800/80 hover:bg-slate-800 text-white font-semibold text-sm rounded-xl border border-slate-700 transition-all transform hover:-translate-y-0.5 flex items-center gap-2">
+                GitHub
+            </a>
         </div>
     </header>
 
-    <main id="projetos" class="main-content">
-        <h2 class="section-title"><span class="bar"></span> Obras de Engenharia</h2>
-        <div class="grid"></div>
+    <!-- Seção de Projetos -->
+    <main id="projetos" class="max-w-6xl w-full mx-auto px-6 py-16 relative z-10 flex-grow">
+        <div class="flex items-center gap-4 mb-12">
+            <div class="h-1 w-12 bg-amber-500 rounded-full"></div>
+            <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-white">Obras de Engenharia</h2>
+        </div>
+        <!-- Grid onde o JavaScript vai injetar os novos cards profissionais -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
     </main>
 
-    <footer>
+    <!-- Rodapé -->
+    <footer class="w-full border-t border-slate-900 bg-[#050811] py-8 text-center text-sm text-slate-500 mt-auto">
         <p>&copy; 2026 DevPy Canvas. Criado por Jonas Eduardo.</p>
     </footer>
 
+    <!-- Script de Rotas e Renderização Visual -->
     <script src="js/app.js"></script>
 </body>
 </html>

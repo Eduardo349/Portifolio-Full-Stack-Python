@@ -10,26 +10,36 @@ async function carregarProjetos() {
         const projetos = await response.json();
         gridProjetos.innerHTML = "";
 
-        // Card 1: SaaS de Produtividade com IA
+        // Card 1: SaaS de Produtividade com IA (Consumido dinamicamente do seu Backend Python)
         projetos.forEach(projeto => {
             gridProjetos.innerHTML += `
-                <div class="card">
+                <div class="glass-card rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 hover:scale-[1.02] hover:border-amber-500/30 hover:shadow-xl hover:shadow-amber-500/5 group">
                     <div>
-                        <div style="display: flex; justify-content: space-between; align-items: start;">
-                            <span class="card-status disponivel">Disponível</span>
-                            <span style="font-size: 0.75rem; color: #6b7280;">💻 Full Stack</span>
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="text-[11px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                                Disponível
+                            </span>
+                            <span class="text-xs font-mono text-slate-500 group-hover:text-slate-400 transition-colors">
+                                💻 Full Stack
+                            </span>
                         </div>
-                        <h3>${projeto.titulo}</h3>
-                        <p>${projeto.descricao}</p>
+                        <h3 class="text-xl font-bold text-white mb-2 group-hover:text-amber-400 transition-colors">
+                            ${projeto.titulo}
+                        </h3>
+                        <p class="text-sm text-slate-400 leading-relaxed mb-6">
+                            ${projeto.descricao}
+                        </p>
                     </div>
                     <div>
-                        <div class="tags">
-                            <span class="tag">FastAPI</span>
-                            <span class="tag">SQLModel</span>
-                            <span class="tag">PostgreSQL</span>
-                            <span class="tag">OpenAI</span>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="text-[11px] font-mono font-medium px-2 py-0.5 rounded-md bg-slate-900 text-slate-300 border border-slate-800">FastAPI</span>
+                            <span class="text-[11px] font-mono font-medium px-2 py-0.5 rounded-md bg-slate-900 text-slate-300 border border-slate-800">SQLModel</span>
+                            <span class="text-[11px] font-mono font-medium px-2 py-0.5 rounded-md bg-slate-900 text-slate-300 border border-slate-800">PostgreSQL</span>
+                            <span class="text-[11px] font-mono font-medium px-2 py-0.5 rounded-md bg-slate-900 text-slate-300 border border-slate-800">OpenAI</span>
                         </div>
-                        <a href="/login" class="btn-primary" style="display: block; text-align: center; margin-top: 1rem; padding: 0.5rem; text-decoration: none; font-size: 0.875rem;">Acessar Sistema</a>
+                        <a href="/login" class="block w-full text-center py-2.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs rounded-xl tracking-wider uppercase transition-all shadow-md shadow-amber-500/10">
+                            Acessar Sistema
+                        </a>
                     </div>
                 </div>
             `;
@@ -37,54 +47,75 @@ async function carregarProjetos() {
 
         // Card 2: Marketplace E-commerce
         gridProjetos.innerHTML += `
-            <div class="card" style="border-color: rgba(16, 185, 129, 0.4);">
+            <div class="glass-card rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 hover:scale-[1.02] hover:border-emerald-500/30 hover:shadow-xl hover:shadow-emerald-500/5 group">
                 <div>
-                    <div style="display: flex; justify-content: space-between; align-items: start;">
-                        <span class="card-status" style="color: #34d399; background-color: rgba(52, 211, 153, 0.1); border-color: rgba(52, 211, 153, 0.2);">Disponível</span>
-                        <span style="font-size: 0.75rem; color: #6b7280;">🛒 E-commerce</span>
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="text-[11px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                            Disponível
+                        </span>
+                        <span class="text-xs font-mono text-slate-500 group-hover:text-slate-400 transition-colors">
+                            🛒 E-commerce
+                        </span>
                     </div>
-                    <h3>Marketplace Tech Shop</h3>
-                    <p>Loja virtual completa com catálogo dinâmico, gerenciamento de estoque integrado ao banco e simulação de checkout transacional.</p>
+                    <h3 class="text-xl font-bold text-white mb-2 group-hover:text-emerald-400 transition-colors">
+                        Marketplace Tech Shop
+                    </h3>
+                    <p class="text-sm text-slate-400 leading-relaxed mb-6">
+                        Loja virtual completa com catálogo dinâmico, gerenciamento de estoque integrado ao banco e simulação de checkout transacional.
+                    </p>
                 </div>
                 <div>
-                    <div class="tags">
-                        <span class="tag">FastAPI</span>
-                        <span class="tag">SQLModel</span>
-                        <span class="tag">PostgreSQL</span>
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="text-[11px] font-mono font-medium px-2 py-0.5 rounded-md bg-slate-900 text-slate-300 border border-slate-800">FastAPI</span>
+                        <span class="text-[11px] font-mono font-medium px-2 py-0.5 rounded-md bg-slate-900 text-slate-300 border border-slate-800">SQLModel</span>
+                        <span class="text-[11px] font-mono font-medium px-2 py-0.5 rounded-md bg-slate-900 text-slate-300 border border-slate-800">PostgreSQL</span>
                     </div>
-                    <a href="/loja" class="btn-primary" style="display: block; text-align: center; margin-top: 1rem; padding: 0.5rem; text-decoration: none; font-size: 0.875rem; background-color: #10b981; box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.3);">Entrar na Loja</a>
+                    <a href="/loja" class="block w-full text-center py-2.5 bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold text-xs rounded-xl tracking-wider uppercase transition-all shadow-md shadow-emerald-500/10">
+                        Entrar na Loja
+                    </a>
                 </div>
             </div>
         `;
 
-        // --- MUDANÇA AQUI: Card 3 - Transforma o card cinza no Projeto 3 Real ---
+        // Card 3: Automated Scraper & Analytics Dashboard
         gridProjetos.innerHTML += `
-            <div class="card" style="border-color: rgba(59, 130, 246, 0.4);">
+            <div class="glass-card rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 hover:scale-[1.02] hover:border-blue-500/30 hover:shadow-xl hover:shadow-blue-500/5 group">
                 <div>
-                    <div style="display: flex; justify-content: space-between; align-items: start;">
-                        <span class="card-status" style="color: #60a5fa; background-color: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.2);">Disponível</span>
-                        <span style="font-size: 0.75rem; color: #6b7280;">📊 Analytics</span>
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="text-[11px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-md bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                            Disponível
+                        </span>
+                        <span class="text-xs font-mono text-slate-500 group-hover:text-slate-400 transition-colors">
+                            📊 Analytics
+                        </span>
                     </div>
-                    <h3>Automated Scraper & Analytics</h3>
-                    <p>Robô de automação que realiza raspagem de dados (Web Scraping) em tempo real, trata os registros e exibe métricas completas em um painel interativo.</p>
+                    <h3 class="text-xl font-bold text-white mb-2 group-hover:text-blue-400 transition-colors">
+                        Automated Scraper & Analytics
+                    </h3>
+                    <p class="text-sm text-slate-400 leading-relaxed mb-6">
+                        Robô de automação que realiza raspagem de dados (Web Scraping) em tempo real, trata os registros e exibe métricas completas em um painel interativo.
+                    </p>
                 </div>
                 <div>
-                    <div class="tags">
-                        <span class="tag">FastAPI</span>
-                        <span class="tag">Web Scraping</span>
-                        <span class="tag">Automation</span>
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="text-[11px] font-mono font-medium px-2 py-0.5 rounded-md bg-slate-900 text-slate-300 border border-slate-800">FastAPI</span>
+                        <span class="text-[11px] font-mono font-medium px-2 py-0.5 rounded-md bg-slate-900 text-slate-300 border border-slate-800">Web Scraping</span>
+                        <span class="text-[11px] font-mono font-medium px-2 py-0.5 rounded-md bg-slate-900 text-slate-300 border border-slate-800">Automation</span>
                     </div>
-                    <a href="/analytics" class="btn-primary" style="display: block; text-align: center; margin-top: 1rem; padding: 0.5rem; text-decoration: none; font-size: 0.875rem; background-color: #3b82f6; box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3);">Ver Analytics</a>
+                    <a href="/analytics" class="block w-full text-center py-2.5 bg-blue-500 hover:bg-blue-600 text-white font-bold text-xs rounded-xl tracking-wider uppercase transition-all shadow-md shadow-blue-500/10">
+                        Ver Analytics
+                    </a>
                 </div>
             </div>
         `;
 
     } catch (error) {
         console.error("Erro na aplicação:", error);
-        gridProjetos.innerHTML = `<p style="color: #f87171; text-align: center; grid-column: 1/-1;">Erro ao conectar com o backend.</p>`;
+        gridProjetos.innerHTML = `<p class="text-red-400 text-center font-medium col-span-full py-8">Erro ao conectar com o backend.</p>`;
     }
 }
 
 document.addEventListener("DOMContentLoaded", carregarProjetos);
+
 
 

@@ -4,60 +4,102 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DevPy Canvas | Contato & CV</title>
+    <!-- Tailwind CSS CDN para Estilização Moderna -->
+    <script src="https://tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        body { background-color: #111827; color: #f3f4f6; font-family: system-ui, -apple-system, sans-serif; margin: 0; padding: 2rem; }
-        .container { max-width: 40rem; margin: 0 auto; }
-        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #374151; padding-bottom: 1rem; margin-bottom: 2rem; }
-        h1 { margin: 0; font-size: 1.75rem; color: #f59e0b; }
-        .box { background-color: #1f2937; padding: 2rem; border-radius: 0.75rem; border: 1px solid #374151; margin-bottom: 1.5rem; }
-        .form-group { margin-bottom: 1.25rem; }
-        label { display: block; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.5rem; color: #9ca3af; }
-        input, textarea { width: 100%; padding: 0.75rem; background-color: #111827; border: 1px solid #374151; border-radius: 0.375rem; color: white; box-sizing: border-box; font-family: inherit; font-size: 1rem; }
-        textarea { resize: vertical; min-height: 120px; }
-        .btn-submit { background-color: #f59e0b; color: #111827; border: none; width: 100%; padding: 0.75rem; border-radius: 0.375rem; font-weight: 700; font-size: 1rem; cursor: pointer; transition: background 0.2s; }
-        .btn-submit:hover { background-color: #d97706; }
-        .btn-download { display: block; text-align: center; background-color: #10b981; color: white; padding: 0.75rem; border-radius: 0.375rem; text-decoration: none; font-weight: 700; margin-bottom: 1.5rem; transition: background 0.2s; }
-        .btn-download:hover { background-color: #059669; }
-        .btn-back { background-color: #374151; color: white; text-decoration: none; padding: 0.5rem 1rem; border-radius: 0.375rem; font-size: 0.875rem; }
+        /* Efeitos avançados de desfoque de fundo */
+        .glass-card {
+            background: rgba(30, 41, 59, 0.45);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        /* Personalização dos focos do formulário */
+        .form-input-focus:focus {
+            outline: none;
+            border-color: rgba(245, 158, 11, 0.5);
+            box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.15);
+        }
     </style>
 </head>
-<body>
+<body class="bg-[#0b0f19] text-slate-100 font-sans antialiased min-h-screen relative overflow-x-hidden p-6 md:p-12 flex items-center justify-center">
 
-    <div class="container">
-        <div class="header">
-            <h1>Contato & Currículo 💼</h1>
-            <a href="/" class="btn-back">Voltar</a>
+    <!-- Pontos de Luz Gradiente ao Fundo (Mantendo a Identidade Visual do Portfólio) -->
+    <div class="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] bg-amber-500/10 rounded-full blur-[150px] pointer-events-none"></div>
+    <div class="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-emerald-600/10 rounded-full blur-[130px] pointer-events-none"></div>
+
+    <div class="max-w-2xl w-full mx-auto relative z-10">
+        
+        <!-- Cabeçalho da Página -->
+        <div class="flex justify-between items-center border-b border-slate-800 pb-6 mb-8">
+            <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight bg-gradient-to-r from-amber-400 to-amber-500 bg-clip-text text-transparent">
+                Contato & Currículo 💼
+            </h1>
+            <a href="/" class="px-4 py-2 bg-slate-800/80 hover:bg-slate-800 text-slate-200 hover:text-white font-medium text-xs rounded-xl border border-slate-700 transition-all flex items-center gap-1.5 transform hover:-translate-y-0.5">
+                ← Voltar
+            </a>
         </div>
 
-        <!-- Área de Download de CV -->
-        <div class="box" style="text-align: center;">
-            <h2 style="margin-top: 0; font-size: 1.25rem; color: white;">Baixar Currículo Profissional</h2>
-            <p style="color: #9ca3af; font-size: 0.9rem; margin-bottom: 1.5rem;">Clique no botão abaixo para fazer o download do meu CV completo formatado para recrutadores.</p>
-            <!-- Rota feita no Python para disparar o download -->
-            <a href="/api/contato/download-cv" class="btn-download" download>📥 Baixar meu CV (PDF Oficial)</a>
+        <!-- Área de Download de CV (Geração via ReportLab no Python) -->
+        <div class="glass-card rounded-2xl p-6 md:p-8 text-center mb-8 shadow-xl shadow-slate-950/20">
+            <h2 class="text-lg font-bold text-white mb-2">Baixar Currículo Profissional</h2>
+            <p class="text-sm text-slate-400 max-w-md mx-auto mb-6">
+                Clique no botão abaixo para fazer o download do meu CV completo formatado para recrutadores de acordo com o padrão EBAC.
+            </p>
+            <a href="/api/contato/download-cv" class="inline-flex items-center justify-center gap-2 w-full py-3.5 bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold text-sm rounded-xl tracking-wider uppercase transition-all shadow-lg shadow-emerald-500/10 transform hover:-translate-y-0.5" download>
+                📥 Baixar meu CV (PDF Oficial)
+            </a>
         </div>
 
         <!-- Formulário de Mensagem -->
-        <div class="box">
-            <h2 style="margin-top: 0; font-size: 1.25rem; color: white;">Envie uma Mensagem</h2>
-            <form id="form-contato" onsubmit="enviarMensagem(event)">
-                <div class="form-group">
-                    <label for="nome">Seu Nome / Empresa</label>
-                    <input type="text" id="nome" required placeholder="Ex: Recrutador Tech">
+        <div class="glass-card rounded-2xl p-6 md:p-8 shadow-xl shadow-slate-950/20">
+            <h2 class="text-lg font-bold text-white mb-6">Envie uma Mensagem</h2>
+            
+            <form id="form-contato" onsubmit="enviarMensagem(event)" class="space-y-5">
+                <div>
+                    <label for="nome" class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">
+                        Seu Nome / Empresa
+                    </label>
+                    <input type="text" id="nome" required placeholder="Ex: Recrutador Tech" 
+                           class="w-full padding p-3.5 bg-[#0e1422] border border-slate-800 rounded-xl text-white font-medium text-sm transition-all form-input-focus placeholder-slate-600">
                 </div>
-                <div class="form-group">
-                    <label for="email">Seu E-mail de Contato</label>
-                    <input type="email" id="email" required placeholder="recrutador@empresa.com">
+                
+                <div>
+                    <label for="email" class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">
+                        Seu E-mail de Contato
+                    </label>
+                    <input type="email" id="email" required placeholder="recrutador@empresa.com" 
+                           class="w-full padding p-3.5 bg-[#0e1422] border border-slate-800 rounded-xl text-white font-medium text-sm transition-all form-input-focus placeholder-slate-600">
                 </div>
-                <div class="form-group">
-                    <label for="mensagem">Mensagem</label>
-                    <textarea id="mensagem" required placeholder="Olá! Gostei do seu portfólio e gostaria de marcar uma entrevista..."></textarea>
+                
+                <div>
+                    <label for="mensagem" class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">
+                        Mensagem
+                    </label>
+                    <textarea id="mensagem" required placeholder="Olá! Gostei do seu perfil e gostaria de marcar uma entrevista..." 
+                              class="w-full padding p-3.5 bg-[#0e1422] border border-slate-800 rounded-xl text-white font-medium text-sm transition-all form-input-focus placeholder-slate-600 min-h-[130px] resize-vertical"></textarea>
                 </div>
-                <button type="submit" class="btn-submit">Enviar Mensagem Full Stack</button>
+                
+                <button type="submit" class="btn-submit w-full py-4 bg-amber-500 hover:bg-amber-600 disabled:bg-amber-500/50 disabled:cursor-not-allowed text-slate-950 font-bold text-xs rounded-xl tracking-wider uppercase transition-all shadow-lg shadow-amber-500/10 mt-2">
+                    Enviar Mensagem Full Stack
+                </button>
             </form>
         </div>
     </div>
 
+    <!-- Script de Processamento e Transações Dinâmicas -->
     <script>
         async function enviarMensagem(event) {
             event.preventDefault();
@@ -66,7 +108,7 @@
             const email = document.getElementById('email').value;
             const mensagem = document.getElementById('mensagem').value;
 
-            btn.innerText = "Enviando...";
+            btn.innerText = "Processando no Servidor...";
             btn.disabled = true;
 
             try {
@@ -78,10 +120,10 @@
 
                 if (!response.ok) throw new Error();
 
-                alert("Mensagem enviada com sucesso! Obrigado pelo contato.");
+                alert("Mensagem armazenada com sucesso no banco de dados relacional! Obrigado pelo contato.");
                 document.getElementById('form-contato').reset();
             } catch (error) {
-                alert("Erro ao enviar mensagem para o servidor Python.");
+                alert("Erro crítico ao transmitir dados para o servidor Python.");
             } finally {
                 btn.innerText = "Enviar Mensagem Full Stack";
                 btn.disabled = false;
