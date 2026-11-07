@@ -64,6 +64,42 @@
         .btn-card-action:hover { background: #d97706; }
         
         footer { border-top: 1px solid rgba(255, 255, 255, 0.05); background-color: #050811; padding: 2rem 0; text-align: center; font-size: 0.875rem; color: #64748b; margin-top: auto; width: 100%; }
+        
+        /* Animação profissional de Scroll Reveal */
+.reveal-hidden {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: opacity, transform;
+}
+
+.reveal-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Grid específico para os certificados */
+.certificados-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.certificado-card {
+    background: rgba(30, 41, 59, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.certificado-card:hover {
+    border-color: rgba(245, 158, 11, 0.3);
+    background: rgba(30, 41, 59, 0.5);
+    transform: translateY(-2px);
+}
+
     </style>
 </head>
 <body>
@@ -90,6 +126,46 @@
         <h2 class="section-title"><span class="bar"></span> Obras de Engenharia</h2>
         <div class="grid"></div>
     </main>
+
+        <!-- Nova Seção de Certificados EBAC -->
+    <section id="certificacoes" class="main-content" style="padding-top: 2rem; padding-bottom: 4rem;">
+        <h2 class="section-title"><span class="bar"></span> Certificações Oficiais (EBAC)</h2>
+        
+        <div class="certificados-grid">
+            <!-- Certificado 1 -->
+            <div class="certificado-card reveal-hidden">
+                <span style="font-size: 1.5rem;">🎓</span>
+                <h3 style="font-size: 1.1rem; margin: 0.75rem 0 0.5rem 0; color: #ffffff;">Full Stack Python</h3>
+                <p style="font-size: 0.85rem; color: #94a3b8; margin: 0 0 1rem 0;">Formação completa abrangendo arquitetura, front-end, back-end e banco de dados (77 módulos | 21 meses).</p>
+                <code style="font-size: 0.7rem; color: #fbbf24; background: rgba(245, 158, 11, 0.05); padding: 0.25rem 0.5rem; border-radius: 0.25rem; display: block; text-align: center;">79274-40500-32013-36115</code>
+            </div>
+
+            <!-- Certificado 2 -->
+            <div class="certificado-card reveal-hidden">
+                <span style="font-size: 1.5rem;">🐍</span>
+                <h3 style="font-size: 1.1rem; margin: 0.75rem 0 0.5rem 0; color: #ffffff;">Back-End Python</h3>
+                <p style="font-size: 0.85rem; color: #94a3b8; margin: 0 0 1rem 0;">Foco em desenvolvimento de APIs estáveis, lógica de programação avançada e ecossistema Python (40 módulos).</p>
+                <code style="font-size: 0.7rem; color: #fbbf24; background: rgba(245, 158, 11, 0.05); padding: 0.25rem 0.5rem; border-radius: 0.25rem; display: block; text-align: center;">62429-40500-90129-22054</code>
+            </div>
+
+            <!-- Certificado 3 -->
+            <div class="certificado-card reveal-hidden">
+                <span style="font-size: 1.5rem;">💻</span>
+                <h3 style="font-size: 1.1rem; margin: 0.75rem 0 0.5rem 0; color: #ffffff;">Desenvolvedor Front-End</h3>
+                <p style="font-size: 0.85rem; color: #94a3b8; margin: 0 0 1rem 0;">Construção de interfaces responsivas, semânticas, manipulação do DOM e engenharia de layouts modernos (37 módulos).</p>
+                <code style="font-size: 0.7rem; color: #fbbf24; background: rgba(245, 158, 11, 0.05); padding: 0.25rem 0.5rem; border-radius: 0.25rem; display: block; text-align: center;">09969-40500-82267-45142</code>
+            </div>
+
+            <!-- Certificado 4 -->
+            <div class="certificado-card reveal-hidden">
+                <span style="font-size: 1.5rem;">⚙️</span>
+                <h3 style="font-size: 1.1rem; margin: 0.75rem 0 0.5rem 0; color: #ffffff;">TI do Zero ao Pro</h3>
+                <p style="font-size: 0.85rem; color: #94a3b8; margin: 0 0 1rem 0;">Introdução sólida a arquiteturas de computadores, redes, lógica de software e fundamentos do mercado de tecnologia.</p>
+                <code style="font-size: 0.7rem; color: #fbbf24; background: rgba(245, 158, 11, 0.05); padding: 0.25rem 0.5rem; border-radius: 0.25rem; display: block; text-align: center;">33266-40500-44611-22408</code>
+            </div>
+        </div>
+    </section>
+
     <footer>
         <p>&copy; 2026 DevPy Canvas. Criado por Jonas Eduardo.</p>
     </footer>

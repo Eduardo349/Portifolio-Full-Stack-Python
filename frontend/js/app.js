@@ -87,5 +87,24 @@ async function carregarProjetos() {
 
 document.addEventListener("DOMContentLoaded", carregarProjetos);
 
+// --- ANIMAÇÃO INVISÍVEL DOS CERTIFICADOS (SCROLL REVEAL) ---
+function iniciarAnimacaoScroll() {
+    const certificados = document.querySelectorAll('.reveal-hidden');
+    
+    // Configura o observador para ativar quando 15% do card aparecer na tela
+    const observador = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('reveal-visible');
+                observador.unobserve(entry.target); // Para de observar para animar apenas uma vez
+            }
+        });
+    }, { threshold: 0.15 });
+
+    certificados.forEach(card => observador.observe(card));
+}
+
+// Executa a inicialização do observador assim que a página carregar
+document.addEventListener("DOMContentLoaded", iniciarAnimacaoScroll);
 
 
