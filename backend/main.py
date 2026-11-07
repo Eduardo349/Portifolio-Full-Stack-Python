@@ -87,6 +87,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FRONTEND_DIR = os.path.join(BASE_DIR, "frontend")
 
 app.mount("/js", StaticFiles(directory=os.path.join(FRONTEND_DIR, "js")), name="js")
+app.mount("/img", StaticFiles(directory=os.path.join(FRONTEND_DIR, "img")), name="img")
 
 # --- ROTAS DE AUTENTICAÇÃO ---
 
