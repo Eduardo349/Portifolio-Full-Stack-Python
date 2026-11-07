@@ -79,32 +79,52 @@
         }
 
         /* Grid específico para os certificados */
+
         .certificados-grid {
             display: grid;
-            /* Ajusta automaticamente os cartões entre 180px e 240px de largura máxima */
-            grid-template-columns: repeat(auto-fit, minmax(180px, 240px));
+            /* Define que os cards terão no máximo 260px de largura */
+            grid-template-columns: repeat(auto-fit, minmax(220px, 260px));
             gap: 1.5rem;
             margin-top: 2rem;
-            /* Centraliza os cartões na tela caso sobre espaço nas laterais */
             justify-content: center; 
         }
 
-        /* Ajuste de padding sutil para o card não ficar pesado */
         .certificado-card {
             background: rgba(30, 41, 59, 0.45);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 1.25rem;
-            padding: 1rem; /* Reduzimos um pouco o espaço interno para ficar mais clean */
+            padding: 1rem;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             transition: all 0.3s ease;
+            box-sizing: border-box;
         }
 
-        .certificado-card:hover {
-            border-color: rgba(245, 158, 11, 0.3);
-            background: rgba(30, 41, 59, 0.5);
-            transform: translateY(-2px);
+        /* Força o contêiner da imagem a ter uma altura máxima definida */
+        .certificado-container-img {
+            width: 100%;
+            height: 160px; /* Fixa o tamanho vertical correto do certificado */
+            background-color: #0e1422;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Controla o redimensionamento direto da imagem */
+        .certificado-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Garante que a imagem inteira apareça no card sem cortes e sem esticar */
+            transition: transform 0.5s ease;
+        }
+
+        .certificado-card:hover .certificado-img {
+            transform: scale(1.04);
         }
 
     </style>
