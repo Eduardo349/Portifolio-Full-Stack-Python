@@ -82,13 +82,25 @@
 
         .certificados-grid {
             display: grid;
-            /* Define que os cards terão no máximo 260px de largura */
-            grid-template-columns: repeat(auto-fit, minmax(220px, 260px));
-            gap: 1.5rem;
+            /* Divide o espaço em exatamente 4 colunas iguais em telas grandes */
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.25rem; /* Reduzimos um pouco o espaço entre eles para caberem perfeitamente */
             margin-top: 2rem;
-            justify-content: center; 
+            width: 100%;
         }
 
+        /* Adicionamos uma regra responsiva para que em telas de celular ou tablet eles quebrem de forma organizada */
+        @media (max-width: 1024px) {
+            .certificados-grid {
+                grid-template-columns: repeat(2, 1fr); /* 2 por linha em tablets */
+            }
+        }
+
+        @media (max-width: 640px) {
+            .certificados-grid {
+                grid-template-columns: repeat(1, 1fr); /* 1 por linha em celulares */
+            }
+        }
         .certificado-card {
             background: rgba(30, 41, 59, 0.45);
             border: 1px solid rgba(255, 255, 255, 0.08);
