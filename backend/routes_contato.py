@@ -58,7 +58,7 @@ def baixar_cv_profissional():
 
     # Dados de Jonas Eduardo extraídos dos certificados e contatos reais fornecidos
     story.append(Paragraph("<b>JONAS EDUARDO FONTELA MACHADO</b>", style_nome))
-    story.append(Paragraph("Estância Velha, RS, Brazil | +55 (51) 99423-8039 | jonaseduardo@gmail.com | LinkedIn: //linkedin.com/in/jonas-eduardo-3780412b6 | GitHub: ://github.com/Eduardo349", style_dados))
+    story.append(Paragraph("Estância Velha, RS, Brazil | +55 (51) 99423-8039 | jonaseduardo879@gmail.com | LinkedIn: //linkedin.com/in/jonas-eduardo-3780412b6 | GitHub: ://github.com/Eduardo349", style_dados))
     
     story.append(Paragraph("<b>OBJETIVO</b>", style_secao))
     story.append(HRFlowable(width="100%", thickness=1, color="#d1d5db", spaceAfter=6))
