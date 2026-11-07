@@ -29,38 +29,58 @@ app.add_middleware(
 )
 
 # --- INICIALIZAÇÃO E SEED AUTOMÁTICO ---
+# --- SUBISTITUA O BLOCO ON_STARTUP POR ESTE NO SEU MAIN.PY ---
 @app.on_event("startup")
 def on_startup():
-    # 1. Cria o banco SQLite e suas tabelas
+    # 1. Executa a criação das tabelas do banco de dados
     criar_banco_e_tabelas()
     
-    # 2. Abre a sessão e faz o seed automatizado à prova de falhas
+    # 2. Abre a sessão e roda o seed profissional com os campos exatos
     db: Session = next(get_session())
     try:
-        # Verifica se a tabela já possui registros
+        # Busca se já existe algum produto cadastrado usando o modelo correto
         produto_existente = db.exec(select(Produto)).first()
         
         if not produto_existente:
-            print("[SEED AUTOMÁTICO] Banco limpo. Injetando dados estáveis...")
+            print("[SEED AUTOMÁTICO] Catálogo vazio detectado. Injetando dados compatíveis...")
             
-            # Criamos os objetos sem propriedades opcionais para não dar erro de coluna
-            p1 = Produto(titulo="Notebook Python Pro", descricao="Notebook ideal para desenvolvimento.", preco=4500.00)
-            p2 = Produto(titulo="Curso FastAPI Sênior", descricao="Treinamento de APIs assíncronas.", preco=299.00)
-            p3 = Produto(titulo="Mouse Ergonômico Dev", descricao="Mouse confortável para programar.", preco=150.00)
+            # Criamos os objetos usando EXATAMENTE as colunas que a sua rota /seed usa
+            produtos_teste = [
+                Produto(
+                    nome="Curso Python Pro", 
+                    descricao="Do zero ao primeiro emprego como desenvolvedor Python Full Stack.", 
+                    preco=199.90, 
+                    imagem_url="https://unsplash.com", 
+                    estoque=100
+                ),
+                Produto(
+                    nome="Mentoria Tech Co.", 
+                    descricao="Acompanhamento individual para alavancar sua carreira de dev.", 
+                    preco=450.00, 
+                    imagem_url="https://unsplash.com", 
+                    estoque=10
+                ),
+                Produto(
+                    nome="E-book FastAPI Masters", 
+                    descricao="Aprenda a criar APIs robustas e escaláveis com padrão de mercado.", 
+                    preco=49.90, 
+                    imagem_url="https://unsplash.com", 
+                    estoque=50
+                )
+            ]
             
-            # Adiciona um por um para garantir a gravação no banco
-            db.add(p1)
-            db.add(p2)
-            db.add(p3)
+            # Adiciona a lista completa de uma só vez
+            db.add_all(produtos_teste)
             db.commit()
-            print("[SEED AUTOMÁTICO] Concluído com sucesso no SQLite!")
+            print("[SEED AUTOMÁTICO] Produtos gravados com sucesso no banco relacional!")
         else:
-            print("[SEED AUTOMÁTICO] Produtos já existentes.")
+            print("[SEED AUTOMÁTICO] O catálogo já possui produtos cadastrados. Pulando.")
     except Exception as e:
-        print(f"[SEED ERRO] Erro na gravação: {e}")
+        print(f"[SEED ERRO] Falha crítica na gravação do banco: {e}")
         db.rollback()
     finally:
-        db.close()# Fecha a conexão com segurança
+        db.close()
+
 
 # --- DIRETÓRIOS E COMPONENTES ESTÁTICOS ---
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
